@@ -301,6 +301,8 @@ export PATH="$PATH:/usr/bin/python"
 export PATH="$PATH:/usr/bin/"
 export PATH="$PATH:/src"
 
+xmodmap ~/.Xmodmap
+
 export NVM_DIR="/home/timothy/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
