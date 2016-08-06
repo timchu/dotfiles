@@ -164,6 +164,11 @@ find . -type f -exec sed -i "s/$1/$2/g" {} +
 function newtab {
 xdotool key ctrl+shift+t; 
 }
+function ce {
+ cd "$1"
+ clear
+ ls
+}
 function cmmd {
  xdotool type --delay 1 "$1"
  xdotool key Return;
@@ -194,6 +199,10 @@ function run {
  frontend
 }
 
+function railsn {
+  rails _5.0.0_ new "$1"
+}
+
 alias lightvim="perl -pi -e 's/set background=dark/set background=light/g' ~/.vimrc"
 alias darkvim="perl -pi -e 's/set background=light/set background=dark/g' ~/.vimrc"
 # Timchu's git aliases
@@ -205,25 +214,11 @@ function gcm {
 git commit -m "$1"
 }
 alias xm="xmodmap ~/.Xmodmap"
-alias btes="fe; vi int-tests/backend-test.js"
-alias rs="redis-server"
-alias rfa="redis-cli flushall"
-alias beg="be; cd ../graph-database"
 alias gd="git diff"
 alias gdn="git diff --name-only"
-alias be="cd ~/alpha-sheets/backend/"
-alias fe="cd ~/alpha-sheets/frontend/"
-alias fs="cd ~/alpha-sheets/frontend/src/js"
-alias bs="cd ~/alpha-sheets/backend/server"
-alias bg="cd ~/alpha-sheets/backend/graph-database"
-alias prof="bs; vi alphasheets-profiling-exe.prof"
-alias bes="cd ~/alpha-sheets/backend/server/src/AS/"
-alias gte="fe; gulp test-eval"
-alias gtx="fe; gulp test-excel"
 
 #alias sben="bs; stack bench --library-profiling --executable-profiling"
 alias si="bes; stack install --fast"
-alias as="cd ~/alpha-sheets"
 alias gp="git pull --rebase"
 
 alias ad="arc diff"_
@@ -237,43 +232,16 @@ alias pyi="py; cd instruments"
 
 # names to pahts in backend.
 alias dc="bes; vi Dispatch/Core.hs"
-alias kel="bes; vi Kernels/Excel/Lib.hs"
-alias keu="bes; vi Kernels/Excel/Util.hs"
 
-alias tl="bes; vi Types/Locations.hs"
-alias tu="bes; vi Types/Updates.hs"
-alias te="echo 'tev' 'tex'"
-alias tev="bes; vi Types/Eval.hs"
-alias tex="bes; vi Types/Excel.hs"
-
-alias tc="bes; vi Types/Commits.hs"
-alias ee="bes; vi Eval/Endware.hs"
-alias hd="bes; vi Handlers/Delete.hs"
-alias hp="echo 'hpa' 'hpr'"
-alias hpr="bes; vi Handlers/Props.hs"
-alias hpa="bes; vi Handlers/Paste.hs"
-alias hm="echo 'hmu' 'hmi'"
-alias hmu="bes; vi Handlers/Mutate.hs"
-alias hmi="bes; vi Handlers/Misc.hs"
 alias grhead="git reset HEAD"
 alias grhard="git reset --hard"
-alias ts="bes; vi Types/Shift.hs"
 alias sg="stack ghci"
 alias sgp="bs; stack ghci --library-profiling --executable-profiling"
 alias sip="stack install --library-profiling --executable-profiling"
-alias pe="bes; vi Parsing/Excel.hs"
-alias pr="bes; vi Parsing/Read.hs"
-alias tr="bes; vi Types/RangeDescriptor.hs"
-alias kp="bes; vi ./Kernels/Python.hs"
-alias hi="bes; vi Handlers/Import.hs"
-alias he="bes; vi Handlers/Eval.hs"
-alias da="bes; vi DB/API.hs"
 alias dark="~/gnome-terminal-colors-solarized/set_dark.sh; darkvim"
 alias light="~/gnome-terminal-colors-solarized/set_light.sh; lightvim"
 alias delswp="find . -type f -name '*\.swp' -delete"
 alias delimg="bes; rm -rf ../../static/images/*"
-alias tb="bes; vi Types/Bar.hs"
-alias td="bes; vi Types/DB.hs"
 
 alias pyRunDirectory="cd ~/alpha-sheets/backend/as-libs"
 alias pks="py; vi kernel/serialize.py"
@@ -285,6 +253,8 @@ alias sheetjs="cat ~/demo/sheetJson|xclip -i -selection clipboard"
 alias gtf="fe; gulp test-formula"
 alias mc="vi ~/my-project/my-project.cabal"
 
+alias lst="ls -t -1"
+
 alias sag="sudo apt-get install"
 alias seap="stack exec alphasheets-profiling-exe"
 alias scra="vi  ~/scratch.hs"
@@ -292,8 +262,10 @@ alias bte="fe; vi int-tests/backend-test.js"
 alias mp="cd ~/my-project/"
 alias fm="p '<<<<'"
 alias fm2="p '>>>>>'"
-alias ti="python ~/tools_in_python/timer.py"
+alias ti="python ~/python/timer.py"
 alias pony="cd ~/tim/ponyfic"
+alias tr="cd ~/js/trumpButton"
+alias chr="cd ~/js/chromeExtension"
 
 export PATH="$PATH:/home/timothy/somewhere/arcanist/bin/"
 export PATH="$PATH:/home/timothy/.local/bin"
@@ -301,11 +273,76 @@ export PATH="$PATH:/usr/bin/python"
 export PATH="$PATH:/usr/bin/"
 export PATH="$PATH:/src"
 
-xmodmap ~/.Xmodmap
-
 export NVM_DIR="/home/timothy/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 PATH="$PATH:/home/timothy/flow/"
 
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
+
+alias tasks="vi ~/t/tasks.txt"
+alias tas="vi ~/t/tasks.txt"
+alias js="cd ~/js"
+alias react="cd ~/js/react"
+alias fluxchat="react; cd flux/examples/flux-chat/js"
+alias fluxtest="react; cd fluxtest"
+alias fluxtim="react; cd fluxtim"
+alias wo="react; cd workflowy"
+alias workflowy="wo"
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+
+
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+alias rs="rails server"
+alias rn="railsn"
+alias vact=". venv/bin/activate"
+alias dact="deactivate"
+
+function mkcd {
+  mkdir "$1"; cd "$1"
+}
+function ginit {
+  echo "https://github.com/timchu/${1}.git";
+  git init;
+  git remote add origin "https://github.com/timchu/${1}.git";
+}
+
+function gcm-init {
+  gaa;
+  gcm "$1";
+  git branch --set-upstream-to origin/master;
+  git push;
+}
+
+function gpup {
+  git push --set-upstream origin master
+}
+
+
+# vi new
+function vn {
+  vi ~/t/"$1".txt
+}
+
+alias dti="vi ~/dailytaskimplement"
+alias dt="vi ~/dailytask"
+alias gp="gaa; gcm 'default commit'; git push"
+alias journal="vi ~/t/journal"
+alias j="journal"
+alias refl="vi ~/t/reflection"
+alias dailytask="vi ~/t/dailytask"
+alias dt="dailytask"
+alias dailytaskimplement="vi ~/t/dailytask"
+alias dti="dailytaskimplement"
+alias mun="evince ~/Downloads/Poor\ Charlie\'s\ Almanack_\ The\ Wit\ and\ Wisdom\ of\ Charles\ T.\ Munger\,\ Expanded\ Third\ Edition\ -\ Charles\ T.\ Munger.pdf&"
+alias lsd="ls -d */"
+alias lsf="ls --ignore='*/'"
+alias app="python app.py"
+alias ind="vi templates/index.html"
+alias scr="vi ~/scraper/scraper.py"
+
+xmodmap ~/.Xmodmap

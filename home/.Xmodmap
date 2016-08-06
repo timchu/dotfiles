@@ -1,4 +1,2 @@
 clear Lock
-keysym Caps_Lock = Escape
-keysym Escape = Caps_Lock
-add Lock = Caps_Lock
+keycode 66 = Escape
